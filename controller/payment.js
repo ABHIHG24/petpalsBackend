@@ -30,7 +30,7 @@ const paymentInsert = async (req, res) => {
       success_url: `${process.env.STRIPE_URL}/Donate?success=true`,
       cancel_url: `${process.env.STRIPE_URL}/Donate?success=false`,
     });
-    console.log(session);
+    // console.log(session);
     res.json({ id: session.id });
   } catch (err) {
     console.error(`Internal server error: ${err}`);
@@ -42,7 +42,7 @@ const getPayment = async (req, res) => {
   try {
     const getData = await Schemapay.find();
     if (!getData || getData.length === 0) {
-      console.log("Data not found");
+      // console.log("Data not found");
       res.status(404).json({ error: "Data not found" });
     } else {
       res.json(getData);

@@ -9,11 +9,8 @@ const articalInsert = async (req, res) => {
       content: content,
       uid: uid,
     });
-    console.log(uid);
-    console.log(userData);
     const storeartical = await userData.save();
     res.json(storeartical);
-    console.log(storeartical);
   } catch (err) {
     console.log(`Internal server error: ${err}`);
     res.status(500).json({ error: "Internal server error" });
@@ -24,7 +21,7 @@ const getArtical = async (req, res) => {
   try {
     const getData = await userSchema.find();
     if (!getData || getData.length === 0) {
-      console.log("Data not found");
+      // console.log("Data not found");
       res.status(404).json({ error: "Data not found" });
     } else {
       res.json(getData);
@@ -40,11 +37,11 @@ const deleteOneArtical = async (req, res) => {
     const deletedArticle = await userSchema.findByIdAndDelete(_id);
 
     if (!deletedArticle) {
-      console.log("Article not found");
+      // console.log("Article not found");
       return res.status(404).json({ error: "Article not found" });
     }
 
-    console.log("Article deleted successfully:", deletedArticle);
+    // console.log("Article deleted successfully:", deletedArticle);
     res
       .status(200)
       .json({ message: "Article deleted successfully", deletedArticle });

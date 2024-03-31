@@ -1,11 +1,7 @@
 const userSchema = require("../model/Registration");
-
 const bcrypt = require("bcrypt");
-const { json } = require("express");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const path = require("path");
-const util = require("util");
 const sendEmail = require("./../Utils/email");
 const crypto = require("crypto");
 
@@ -42,13 +38,11 @@ const login = async (req, res) => {
       });
     }
 
-    //sending token
     const token = signToken(user._id);
 
-    //creating cookie
     const options = {
       maxAge: process.env.LOGIN_EXPIRES,
-      // secure: true,  means require https
+      // secure: true,
       // httpOnly: true,
     };
 
@@ -62,7 +56,7 @@ const login = async (req, res) => {
     });
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
+    res.status(500).json({ success: false, message: "internal server error" });
   }
 };
 
@@ -95,11 +89,11 @@ const userInsert = async (req, res) => {
     }
 
     const storeUser = await userData.save();
-    storeUser.password = undefined; // so not save it i will make not visible the password
+    storeUser.password = undefined;
     res.json(storeUser);
   } catch (err) {
     console.error(`Internal server error: ${err}`);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "internal server error" });
   }
 };
 
@@ -107,7 +101,7 @@ const getUser = async (req, res) => {
   try {
     const getData = await userSchema.find();
     if (!getData) {
-      console.log("Data not found");
+      // console.log("Data not found");
       res.status(404).json({ error: "Data not found" });
     } else {
       res.json(getData);
@@ -123,7 +117,7 @@ const getSingleUser = async (req, res) => {
   try {
     const getData = await userSchema.findById(_id);
     if (!getData || getData.length === 0) {
-      console.log("Data not found", _id);
+      // console.log("Data not found", _id);
       res.status(404).json({ error: "Data not found" });
     } else {
       res.json(getData);
@@ -151,9 +145,7 @@ const deleteSingleUser = async (req, res) => {
 };
 
 const protect = async (req, res, next) => {
-  /// read and validate the token and if user exists and changed the password
   const testToken = req.headers.authorization;
-  // console.log(testToken);
   let token1;
   try {
     if (testToken && testToken.startsWith("bearer")) {
@@ -163,11 +155,8 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ message: " you are unauthozie" });
     }
 
-    // validate
     const decodedtoken = jwt.verify(token1, process.env.ACCESS_TOKEN_SECRET);
 
-    // console.log(decodedtoken);
-    // if the user exits
     const user = await userSchema.findById(decodedtoken.id);
     if (!user) {
       console.log("user does not exits");
@@ -175,7 +164,6 @@ const protect = async (req, res, next) => {
         .status(401)
         .json({ message: " you are Unauthorized user does not exits" });
     }
-    //password changed or not
     const passwordChanged = await user.isPasswordChanged(decodedtoken.iat);
 
     if (passwordChanged) {
@@ -184,19 +172,19 @@ const protect = async (req, res, next) => {
         .json({ message: " password changed recently so please login again" });
     }
 
-    //allow user to access route
-    req.user = user; // passing the user to next middleware
+    req.user = user;
     next();
   } catch (error) {
     console.log(error);
     return res.status(401).json({ message: "Unauthorized, token is invalid" });
   }
 };
+
 const restrict = (...role) => {
-  console.log(...role);
+  // console.log(...role);
   return (req, res, next) => {
-    console.log(...role);
-    console.log(req.user.role);
+    // console.log(...role);
+    // console.log(req.user.role);
     if (role.includes(req.user.role)) {
       return res
         .status(403)

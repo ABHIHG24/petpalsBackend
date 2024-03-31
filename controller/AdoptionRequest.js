@@ -64,6 +64,7 @@ const deleterequest = async (req, res) => {
 };
 const requestsuccess = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
   try {
     const data = await reqform.findById(id);
     if (!data) {
