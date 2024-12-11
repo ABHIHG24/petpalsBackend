@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const express = require("express");
 const app = express();
 
@@ -9,6 +8,7 @@ require("dotenv").config();
 const stripe = require("stripe")(
   "sk_test_51OnZUpSB5YEoLiYMqfnKyHDTQrSbH5A5A15q1EcXq3VCxYXyI16zRG8ytvy2RURZtO895m8awFAPAtDpUuopFjzp00jSUZOeLt"
 );
+
 app.use(cookieParser());
 app.use(
   cors({
@@ -19,23 +19,12 @@ app.use(
 
 app.use(express.json());
 
-const dburl =
-  "mongodb+srv://petpals:iiHCvsqGaautYeZf@cluster0.hhki8kd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// Use the correct DB URL, update with the correct credentials if needed
+const dburl = "mongodb+srv://petpals:iiHCvsqGaautYeZf@cluster0.hhki8kd.mongodb.net/petpals?retryWrites=true&w=majority";
 
-// const connectionParams = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// };
-// const dburl = "mongodb://localhost:27017/petpals";
+// const dburl = "mongodb://localhost:27017/petpals"; // Local MongoDB connection
 
-app.use("/api/petpals", require("./router/Registrationroute"));
-app.use("/api/artical", require("./router/articalroute"));
-app.use("/api/form", require("./router/adoptionform"));
-app.use("/api/request", require("./router/adoptionreq"));
-app.use("/api/payment", require("./router/payment"));
-
-const port = 5000;
-
+// Connect to the MongoDB database
 mongoose
   .connect(dburl)
   .then(() => {
@@ -45,4 +34,15 @@ mongoose
     console.log("Error connecting to the database:", err);
   });
 
-app.listen(port, () => console.log(`Server is running on port ${port}`));
+// Define routes
+app.use("/api/registration", require("./router/Registrationroute"));
+app.use("/api/artical", require("./router/articalroute"));
+app.use("/api/form", require("./router/adoptionform"));
+app.use("/api/request", require("./router/adoptionreq"));
+app.use("/api/payment", require("./router/payment"));
+
+const port = 5000;
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
