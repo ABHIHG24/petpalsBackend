@@ -29,7 +29,7 @@ mongoose
   });
 
 // Routes
-app.use("/api/registration", require("./router/Registrationroute"));
+app.use("/api/petpals", require("./router/Registrationroute"));
 app.use("/api/artical", require("./router/articalroute"));
 app.use("/api/form", require("./router/adoptionform"));
 app.use("/api/request", require("./router/adoptionreq"));
