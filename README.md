@@ -3,6 +3,13 @@
 Petpals is a full-featured web application designed to connect stray and abandoned animals with loving homes. It provides a comprehensive platform for users to find and adopt pets, share their experiences through articles, and support the cause through donations.
 
 This repository contains the **backend (server-side)** code for the Petpals platform.
+## 🚀 Live Demo
+
+You can view the live, deployed version of the application here:
+
+**[https://petpals-xqqz.onrender.com/](https://petpals-xqqz.onrender.com/)**
+
+*(Please note: The backend on the free Render hosting tier may take a moment to spin up if it has been inactive.)*
 
 ## Repositories
 This project is split into two separate repositories:
