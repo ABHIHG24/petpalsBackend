@@ -70,7 +70,7 @@ To get the full application running locally, you will need to set up both the ba
     ```
 5.  Start the backend server:
     ```sh
-  node index.jx or nodemon index.js
+     node index.js
     ```
     The server will be running on `http://localhost:PORT` (e.g., port 5000).
 
